@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/comfy.js@1.1.16/dist/comfy.min.js"></script>
+    <script>
+        function speak(message) {
+            speechSynthesis.speak(new SpeechSynthesisUtterance(message));
+        }
+
+        const url = new URLSearchParams(window.location.href);
+        if (!url.has('broadcaster') || !url.has('chatters')) {
+            alert('please set a `broadcaster` and one or more `chatters` in the search params.');
+        }
+
+        const broadcaster = url.get('broadcaster');
+        const chatters = url.getAll('chatters');
+
+        ComfyJS.onChat = (user, message) => {
+            if (chatters.indexOf(user) !== -1) speechSynthesis.speak((new SpeechSynthesisUtterance(message)));
+        }
+
+    </script>
+</head>
+<body>Twitch chat speaks.</body>
+</html>
